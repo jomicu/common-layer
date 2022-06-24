@@ -1,0 +1,46 @@
+name: Deploy CommonLayer with Serverless
+
+on: workflow_dispatch
+
+jobs:
+  deploy:
+    name: Deploy CommonLayer with Serverless
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set environment
+        run: |
+          case ${GITHUB_REF##*/} in
+            "production") echo "ENVIRONMENT=production" >> $GITHUB_ENV ;;
+            "preprod") echo "ENVIRONMENT=preprod" >> $GITHUB_ENV ;;
+            "qa") echo "ENVIRONMENT=qa" >> $GITHUB_ENV ;;
+            *) echo "ENVIRONMENT=development" >> $GITHUB_ENV ;;
+          esac
+
+      - name: Checkout Repo
+        uses: actions/checkout@v2
+
+      - name: Install Node 16
+        uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+
+      - name: Install Python 3.9
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.9"
+      
+      - name: Install Serverless and Plugins
+        run: |
+          npm install -g serverless@3.19.0
+          serverless plugin install --name serverless-deployment-bucket
+          serverless plugin install --name serverless-python-requirements
+          serverless plugin install --name serverless-prune-plugin
+
+      - name: Setup Serverless with AWS credentials
+        run: sls config credentials --provider aws --key ${{ secrets.AWS_ACCESS_KEY_ID }} --secret ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+
+      - name: Serverless deploy
+        env:
+          ENVIRONMENT: ${{ env.ENVIRONMENT }}
+        run: sls deploy
+
