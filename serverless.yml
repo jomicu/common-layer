@@ -1,0 +1,49 @@
+service: CommonLayer
+
+frameworkVersion: "3.19.0" # Lock Serverless version
+
+plugins:
+  - serverless-deployment-bucket # Defines name and configuration for the deployment bucket
+
+provider:
+  name: aws
+  runtime: python3.9
+  stage: ${env:ENVIRONMENT}
+  region: ${env:AWS_REGION, "eu-west-3"}
+
+  deploymentBucket:
+    name: ${self:custom.bucket.bucketName}
+
+custom:
+  # Global configuration
+  globalServerlessConfiguration: ${ssm:GlobalConfigurationBucket}/serverless
+
+  # Set configuration based on global configuration for Serverless
+  bucket: ${file(${s3:${self:custom.globalServerlessConfiguration}/buckets.yml}):${self:provider.stage}}
+
+  # S3
+  deploymentBucket: ${self:custom.bucket.bucketConfiguration}
+
+package:
+  individually: true
+  exclude:
+    - "**"
+
+layers:
+  common:
+    path: common
+    name: ${self:provider.stage}-${self:service}
+    description: "Custom common functionality to be shared across lambdas within the organization"
+    compatibleRuntimes:
+      - python3.9
+    licenseInfo: MIT License
+    retain: true
+
+resources:
+  Resources:
+    commonLayerArn:
+      Type: AWS::SSM::Parameter
+      Properties:
+        Name: /${self:provider.stage}/layers/${self:service}
+        Type: String
+        Value: !Ref CommonLambdaLayer
