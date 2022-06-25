@@ -2,6 +2,11 @@ name: Deploy CommonLayer with Serverless
 
 on: workflow_dispatch
 
+env:
+  SCRIPTS_DIRECTORY: "scripts"
+  SERVERLESS_DIRECTORY: "."
+  GLOBAL_SETTINGS_DIRECTORY: "global_settings"
+
 jobs:
   deploy:
     name: Deploy CommonLayer with Serverless
@@ -44,11 +49,14 @@ jobs:
         env:
           AWS_REGION: ${{ secrets.AWS_REGION }}
           BUCKET: ${{ secrets.AWS_GLOBAL_CONFIGURATION_BUCKET }}
-          COPY_TO: .
+          COPY_TO: ${{ env.SERVERLESS_DIRECTORY }}/${{ env.GLOBAL_SETTINGS_DIRECTORY }}
         run: sh get-configuration-from-s3.sh
 
       - name: Serverless deploy
+        working-directory: ${{ env.SERVERLESS_DIRECTORY }}
         env:
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+          GLOBAL_SETTINGS_DIRECTORY: ${{ env.GLOBAL_SETTINGS_DIRECTORY }}
           ENVIRONMENT: ${{ env.ENVIRONMENT }}
         run: sls deploy
 
