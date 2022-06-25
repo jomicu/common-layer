@@ -41,4 +41,5 @@ resources:
       Properties:
         Name: /${self:provider.stage}/layers/${self:service}
         Type: String
-        Value: !Ref CommonLambdaLayer
+        Value: 
+          Ref: CommonLambdaLayer
