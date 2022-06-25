@@ -15,11 +15,8 @@ provider:
     name: ${self:custom.bucket.bucketName}
 
 custom:
-  # Global configuration
-  globalServerlessConfiguration: ${ssm:GlobalConfigurationBucket}/serverless
-
   # Set configuration based on global configuration for Serverless
-  bucket: ${file(${s3:${self:custom.globalServerlessConfiguration}/buckets.yml}):${self:provider.stage}}
+  bucket: ${file(${env:GLOBAL_SETTINGS_DIRECTORY}/buckets.yml):${self:provider.stage}.layers}
 
   # S3
   deploymentBucket: ${self:custom.bucket.bucketConfiguration}
