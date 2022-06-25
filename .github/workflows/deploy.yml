@@ -39,6 +39,14 @@ jobs:
       - name: Setup Serverless with AWS credentials
         run: sls config credentials --provider aws --key ${{ secrets.AWS_ACCESS_KEY_ID }} --secret ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
+      - name: Copy configuration files from S3
+        working-directory: ${{ env.SCRIPTS_DIRECTORY }}
+        env:
+          AWS_REGION: ${{ secrets.AWS_REGION }}
+          BUCKET: ${{ secrets.AWS_GLOBAL_CONFIGURATION_BUCKET }}
+          COPY_TO: .
+        run: sh get-configuration-from-s3.sh
+
       - name: Serverless deploy
         env:
           ENVIRONMENT: ${{ env.ENVIRONMENT }}
