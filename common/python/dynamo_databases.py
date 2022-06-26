@@ -4,8 +4,8 @@ from decimal import Decimal
 from boto3 import resource
 from boto3.dynamodb.conditions import Key
 
-from common.enums import NamingConventions
-from common.transform import TransformDictionary
+from .enums import NamingConventions
+from .transform import TransformDictionary
 
 class DynamoDatabase(object):
 
