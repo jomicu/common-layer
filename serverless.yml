@@ -32,7 +32,7 @@ layers:
     compatibleRuntimes:
       - python3.9
     licenseInfo: MIT License
-    retain: true
+    retain: false
 
 resources:
   Resources:
