@@ -23,8 +23,6 @@ custom:
 
 package:
   individually: true
-  exclude:
-    - "**"
 
 layers:
   common:
@@ -34,7 +32,7 @@ layers:
     compatibleRuntimes:
       - python3.9
     licenseInfo: MIT License
-    retain: true
+    retain: false
 
 resources:
   Resources:
@@ -43,4 +41,5 @@ resources:
       Properties:
         Name: /${self:provider.stage}/layers/${self:service}
         Type: String
-        Value: !Ref CommonLambdaLayer
+        Value: 
+          Ref: CommonLambdaLayer

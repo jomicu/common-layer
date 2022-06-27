@@ -3,7 +3,6 @@ name: Deploy CommonLayer with Serverless
 on: workflow_dispatch
 
 env:
-  SCRIPTS_DIRECTORY: "scripts"
   SERVERLESS_DIRECTORY: "."
   GLOBAL_SETTINGS_DIRECTORY: "global_settings"
 
@@ -45,12 +44,15 @@ jobs:
         run: sls config credentials --provider aws --key ${{ secrets.AWS_ACCESS_KEY_ID }} --secret ${{ secrets.AWS_SECRET_ACCESS_KEY }}
 
       - name: Copy configuration files from S3
-        working-directory: ${{ env.SCRIPTS_DIRECTORY }}
+        working-directory: ${{ env.SERVERLESS_DIRECTORY }}
         env:
           AWS_REGION: ${{ secrets.AWS_REGION }}
           BUCKET: ${{ secrets.AWS_GLOBAL_CONFIGURATION_BUCKET }}
-          COPY_TO: ${{ env.SERVERLESS_DIRECTORY }}/${{ env.GLOBAL_SETTINGS_DIRECTORY }}
-        run: sh get-configuration-from-s3.sh
+          COPY_TO: ${{ env.GLOBAL_SETTINGS_DIRECTORY }}
+        run: |
+          KEY="serverless"
+          COPY_FROM="s3://$BUCKET/$KEY/"
+          aws s3 cp $COPY_FROM $COPY_TO --recursive
 
       - name: Serverless deploy
         working-directory: ${{ env.SERVERLESS_DIRECTORY }}

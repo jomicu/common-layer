@@ -1,8 +1,7 @@
 from typing import Callable
 from re import sub
 
-from common.utilities import is_variable_an_dictionary
-from common.enums import NamingConventions
+from .enums import NamingConventions
 
 def parse_snake_to_camel(snake_str: str) -> str:
     components = snake_str.lstrip("_").split("_")
