@@ -1,6 +1,6 @@
 service: CommonLayer
 
-frameworkVersion: "3.19.0" # Lock Serverless version
+frameworkVersion: "3.20.0" # Lock Serverless version
 
 plugins:
   - serverless-deployment-bucket # Defines name and configuration for the deployment bucket
@@ -26,7 +26,7 @@ package:
 
 layers:
   common:
-    path: common
+    path: layer
     name: ${self:provider.stage}-${self:service}
     description: "Custom common functionality to be shared across lambdas within the organization"
     compatibleRuntimes:
