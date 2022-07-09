@@ -35,7 +35,7 @@ jobs:
       
       - name: Install Serverless and Plugins
         run: |
-          npm install -g serverless@3.19.0
+          npm install -g serverless@3.20.0
           serverless plugin install --name serverless-deployment-bucket
           serverless plugin install --name serverless-python-requirements
           serverless plugin install --name serverless-prune-plugin
