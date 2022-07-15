@@ -1,6 +1,6 @@
 service: CommonLayer
 
-frameworkVersion: "3.20.0" # Lock Serverless version
+frameworkVersion: "3.21.0" # Lock Serverless version
 
 plugins:
   - serverless-deployment-bucket # Defines name and configuration for the deployment bucket
@@ -23,6 +23,10 @@ custom:
 
 package:
   individually: true
+  include:
+    - "!layer/python/tests/**"
+    - "!layer/python/common/**/test_*.py"
+    - "layer/python/**"
 
 layers:
   common:
