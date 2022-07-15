@@ -23,6 +23,9 @@ custom:
 
 package:
   individually: true
+  include:
+    - "!layer/python/**/test_*.py"
+    - "layer/python/**"
 
 layers:
   common:
