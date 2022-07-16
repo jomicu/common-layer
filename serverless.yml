@@ -34,7 +34,7 @@ layers:
     licenseInfo: MIT License
     retain: false
     package:
-      patterns:
+      include:
         - "!python/tests/**"
         - "!python/common/**/test_*.py"
         - "python/**"
