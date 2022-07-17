@@ -24,7 +24,7 @@ custom:
 package:
   individually: true
   exclude:
-    - "*/**"
+    - "**/**"
 
 layers:
   common:
@@ -36,11 +36,9 @@ layers:
     licenseInfo: MIT License
     retain: false
     package:
-      include:
-        - "python/common/**"
       exclude:
-        - "**/test/**"
-        - "*test_*.py"
+        - "**/tests/**"
+        - "**/test_*"
 
 resources:
   Resources:
