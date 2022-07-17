@@ -35,7 +35,7 @@ layers:
     retain: false
     package:
       include:
-        - ./**
+        - "**"
       exclude:
         - python/tests/**
         - python/common/**/test_*.py
