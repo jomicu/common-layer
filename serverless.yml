@@ -23,8 +23,6 @@ custom:
 
 package:
   individually: true
-  exclude:
-    - "**/**"
 
 layers:
   common:
