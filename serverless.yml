@@ -36,7 +36,7 @@ layers:
     package:
       exclude:
         - "**/tests/**"
-        - "**/test_*"
+        - "**/test_*.py"
 
 resources:
   Resources:
