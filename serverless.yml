@@ -39,7 +39,7 @@ layers:
       include:
         - "python/common/**"
       exclude:
-        - "python/common/**/test_*.py"
+        - "python/common/test_*.py"
 
 resources:
   Resources:
