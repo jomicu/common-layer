@@ -35,9 +35,10 @@ layers:
     retain: false
     package:
       include:
-        - "!python/tests/**"
-        - "!python/common/**/test_*.py"
-        - "python/**"
+        - ./**
+      exclude:
+        - python/tests/**
+        - python/common/**/test_*.py
 
 resources:
   Resources:
